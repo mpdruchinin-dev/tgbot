@@ -1,0 +1,44 @@
+import telebot
+import random
+
+bot = telebot.TeleBot("8050795924:AAGDMDK2U4-w6KvIXEMdwpZRt5ABVxtILcc")
+
+# Мемы и их редкость
+memes = {
+    "common": {
+        "chance": 60,
+        "file": "images/mem1.jpg"
+    },
+    "epic": {
+        "chance": 25,
+        "file": "images/mem2.jpg"
+    },
+    "legendary": {
+        "chance": 10,
+        "file": "images/mem3.jpg"
+    },
+}
+
+# Обработчик команды '/heh'
+@bot.message_handler(commands=['heh'])
+def send_heh(message):
+    count_heh = int(message.text.split()[1]) if len(message.text.split()) > 1 else 5
+    bot.reply_to(message, "he" * count_heh)
+
+
+
+# Обработчик команды '/mem'
+@bot.message_handler(commands=['mem'])
+def send_mem(message):
+
+    rarities = list(memes.keys())
+    chances = [memes[r]["chance"] for r in rarities]
+
+    selected = random.choices(rarities, weights=chances)[0]
+
+    file_path = memes[selected]["file"]
+
+    with open(file_path, 'rb') as f:
+        bot.send_photo(message.chat.id, f)
+
+bot.polling()
