@@ -3,7 +3,6 @@ import random
 
 bot = telebot.TeleBot("8050795924:AAGDMDK2U4-w6KvIXEMdwpZRt5ABVxtILcc")
 
-# Мемы и их редкость
 memes = {
     "common": {
         "chance": 60,
